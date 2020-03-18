@@ -1,14 +1,36 @@
 <template>
   <div class="home">
-    <header>this is header</header>
-    <aside>this is aside</aside>
-    <main>this is content</main>
-    <footer>this is footer</footer>
+    <Header />
+    <!-- <Aside />
+    <Content />
+    <Footer /> -->
   </div>
 </template>
 
 <script>
+import Header from '@/components/home/Header.vue';
+// import Aside from '@/components/home/Aside.vue';
+// import Content from '@/components/home/Content.vue';
+// import Footer from '@/components/home/Footer.vue';
+
 export default {
-  name: 'Home',
+  components: {
+    Header,
+    // Aside,
+    // Content,
+    // Footer,
+  },
 };
 </script>
+
+<style lang="scss">
+.home {
+  padding: 20px;
+  box-sizing: border-box;
+  overflow: hidden;
+
+  * {
+    box-sizing: border-box;
+  }
+}
+</style>
