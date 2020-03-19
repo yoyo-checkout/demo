@@ -3,7 +3,7 @@
     <Header />
     <Aside />
     <!-- <Content /> -->
-    <!-- <Footer /> -->
+    <Footer />
   </div>
 </template>
 
@@ -11,14 +11,14 @@
 import Header from '@/components/home/Header.vue';
 import Aside from '@/components/home/Aside.vue';
 // import Content from '@/components/home/Content.vue';
-// import Footer from '@/components/home/Footer.vue';
+import Footer from '@/components/home/Footer.vue';
 
 export default {
   components: {
     Header,
     Aside,
     // Content,
-    // Footer,
+    Footer,
   },
 };
 </script>
@@ -27,6 +27,7 @@ export default {
 .home {
   padding: 20px;
   box-sizing: border-box;
+  min-height: 100vh;
   overflow: hidden;
 
   * {

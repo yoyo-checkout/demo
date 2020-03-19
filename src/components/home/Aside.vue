@@ -13,7 +13,7 @@ export default {
 .aside {
   position: fixed;
   left: 20px;
-  top: 0;
+  top: 20px;
   width: 40px;
   height: calc(100vh - 40px);
   border: 1px solid #000;
