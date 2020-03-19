@@ -16,8 +16,14 @@
     <div class="header__marquee">
       <span class="marquee">▉ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pretium ante erat, vitae sodales mi varius quis.</span>
     </div>
-    <div class="header__prod">作品列表</div>
-    <div class="header__hamburger"></div>
+    <div class="header__space">
+      <span class="text">Space</span>
+    </div>
+    <div class="header__hamburger">
+      <div class="line line1"></div>
+      <div class="line line2"></div>
+      <div class="line line3"></div>
+    </div>
   </header>
 </template>
 
@@ -226,7 +232,7 @@ export default {
 
     .marquee {
       position: absolute;
-      animation: marquee 12.5s infinite linear;
+      animation: marquee 15s infinite linear;
     }
 
     @keyframes marquee {
@@ -237,6 +243,45 @@ export default {
       to {
         left: -1015px;
       }
+    }
+  }
+
+  &__space {
+    position: relative;
+    flex-grow: 1;
+    height: 100%;
+    border: 1px solid #000;
+    border-left: 0;
+    line-height: 50px;
+    cursor: pointer;
+
+    &:hover {
+      &::before {
+        width: 100%;
+      }
+
+      .text {
+        color: #fff;
+      }
+    }
+
+    &::before {
+      content: '';
+      display: block;
+      position: absolute;
+      width: 0;
+      height: 100%;
+      background-color: #000;
+      transition: width .5s;
+    }
+
+    .text {
+      position: absolute;
+      display: block;
+      width: 100%;
+      text-align: center;
+      z-index: 1;
+      transition: color .25s;
     }
   }
 }
