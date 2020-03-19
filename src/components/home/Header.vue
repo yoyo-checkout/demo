@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="header__marquee">
-      ▉ Every element is a plate, present oneself but also extrude others to create a new possibility.
+      <span class="marquee">▉ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pretium ante erat, vitae sodales mi varius quis.</span>
     </div>
     <div class="header__prod">作品列表</div>
     <div class="header__hamburger"></div>
@@ -168,7 +168,7 @@ export default {
     justify-content: space-between;
     align-items: center;
     padding: 0 20px;
-    width: 170px;
+    width: 190px;
     height: 100%;
     border: 1px solid #000;
     border-left: 0;
@@ -179,6 +179,7 @@ export default {
     .time {
       width: 80px;
       text-align: center;
+      letter-spacing: 1.5px;
     }
 
     .clock {
@@ -208,6 +209,33 @@ export default {
       &--sec {
         height: 15px;
         background-color: red;
+      }
+    }
+  }
+
+  &__marquee {
+    position: relative;
+    width: 880px;
+    height: 100%;
+    border: 1px solid #000;
+    border-left: 0;
+    line-height: 50px;
+    letter-spacing: 1.5px;
+    white-space: nowrap;
+    overflow: hidden;
+
+    .marquee {
+      position: absolute;
+      animation: marquee 12.5s infinite linear;
+    }
+
+    @keyframes marquee {
+      from {
+        left: 880px;
+      }
+
+      to {
+        left: -1015px;
       }
     }
   }
