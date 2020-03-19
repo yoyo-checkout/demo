@@ -33,4 +33,10 @@ export default {
     box-sizing: border-box;
   }
 }
+
+@media screen and (max-width: 1024px) {
+  .mini-screen-hidden {
+    display: none;
+  }
+}
 </style>

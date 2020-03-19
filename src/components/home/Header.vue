@@ -5,7 +5,7 @@
       <div class="left"></div>
       <div class="front">B</div>
     </div>
-    <div class="header__time">
+    <div class="header__time mini-screen-hidden">
       <div class="time">{{ `${hour}:${minute}:${second}` }}</div>
       <div class="clock">
         <div class="pointer pointer--hour"></div>
@@ -16,7 +16,7 @@
     <div class="header__marquee">
       <span class="marquee">▉ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pretium ante erat, vitae sodales mi varius quis.</span>
     </div>
-    <div class="header__space">
+    <div class="header__space mini-screen-hidden">
       <span class="text">Space</span>
     </div>
     <div class="header__hamburger" @click="toggleHamburger">
@@ -120,7 +120,7 @@ export default {
     top: -20px;
     left: -20px;
     background-color: #fff;
-    z-index: 1;
+    z-index: 2;
   }
 
   &::before {
@@ -134,10 +134,12 @@ export default {
   }
 
   &__logo {
+    flex-shrink: 0;
     position: relative;
     width: 60px;
     height: 60px;
     transition: transform .3s;
+    z-index: 1;
     cursor: pointer;
 
     &:hover {
@@ -184,7 +186,8 @@ export default {
     flex-flow: row nowrap;
     justify-content: space-between;
     align-items: center;
-    padding: 0 20px;
+    flex-shrink: 0;
+    padding: 0 15px;
     width: 190px;
     height: 100%;
     border: 1px solid #000;
@@ -231,6 +234,7 @@ export default {
   }
 
   &__marquee {
+    flex-grow: 1;
     position: relative;
     width: 880px;
     height: 100%;
@@ -259,7 +263,7 @@ export default {
 
   &__space {
     position: relative;
-    flex-grow: 1;
+    width: 220px;
     height: 100%;
     border: 1px solid #000;
     border-left: 0;
@@ -297,6 +301,7 @@ export default {
   }
 
   &__hamburger {
+    flex-shrink: 0;
     position: relative;
     width: 50px;
     height: 50px;
