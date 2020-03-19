@@ -19,10 +19,15 @@
     <div class="header__space">
       <span class="text">Space</span>
     </div>
-    <div class="header__hamburger">
-      <div class="line line1"></div>
-      <div class="line line2"></div>
-      <div class="line line3"></div>
+    <div class="header__hamburger" @click="toggleHamburger">
+      <div
+        class="icon"
+        :class="[{ 'active': isHamburgerActive }, { 'unactive': !initHamburger && !isHamburgerActive }]"
+      >
+        <div class="line line1"></div>
+        <div class="line line2"></div>
+        <div class="line line3"></div>
+      </div>
     </div>
   </header>
 </template>
@@ -34,6 +39,8 @@ export default {
       hour: '',
       minute: '',
       second: '',
+      isHamburgerActive: false,
+      initHamburger: true, // 初始化漢堡選單不啟動 unactive 樣式動畫
     };
   },
   mounted() {
@@ -84,6 +91,10 @@ export default {
       hourPointer.style.transform = `rotate(${degree.hour}deg)`;
       minPointer.style.transform = `rotate(${degree.min}deg)`;
       secPointer.style.transform = `rotate(${degree.sec}deg)`;
+    },
+    toggleHamburger() {
+      this.isHamburgerActive = !this.isHamburgerActive;
+      this.initHamburger = false;
     },
   },
 };
@@ -282,6 +293,137 @@ export default {
       text-align: center;
       z-index: 1;
       transition: color .25s;
+    }
+  }
+
+  &__hamburger {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    border: 1px solid #000;
+    border-left: 0;
+    cursor: pointer;
+
+    .icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+
+      &.active {
+        .line1 {
+          animation: hamburgerline1 .7s cubic-bezier(.30, 1, .7, 1) forwards;
+
+          @keyframes hamburgerline1 {
+            0% {
+              transform: translateY(0) rotate(0);
+            }
+
+            50% {
+              transform: translateY(8.5px) rotate(0);
+            }
+
+            100% {
+              transform: translateY(8.5px) rotate(-135deg);
+            }
+          }
+        }
+
+        .line2 {
+          animation: hamburgerline2 .7s cubic-bezier(.30, 1, .7, 1) forwards;
+
+          @keyframes hamburgerline2 {
+            0% {
+              transform: scale(1);
+            }
+
+            100% {
+              transform: scale(0);
+            }
+          }
+        }
+
+        .line3 {
+          animation: hamburgerline3 .7s cubic-bezier(.30, 1, .7, 1) forwards;
+
+          @keyframes hamburgerline3 {
+            0% {
+              transform: translateY(0) rotate(0);
+            }
+
+            50% {
+              transform: translateY(-8.5px) rotate(0);
+            }
+
+            100% {
+              transform: translateY(-8.5px) rotate(135deg);
+            }
+          }
+        }
+      }
+
+      &.unactive {
+        .line1 {
+          animation: hamburgerline1-rev .7s cubic-bezier(.30, 1, .7, 1) forwards;
+
+          @keyframes hamburgerline1-rev {
+            0% {
+              transform: translateY(8.5px) rotate(-135deg);
+            }
+
+            50% {
+              transform: translateY(8.5px) rotate(0);
+            }
+
+            100% {
+              transform: translateY(0) rotate(0);
+            }
+          }
+        }
+
+        .line2 {
+          animation: hamburgerline2-rev .7s cubic-bezier(.30, 1, .7, 1) forwards;
+
+          @keyframes hamburgerline2-rev {
+            0% {
+              transform: scale(0);
+            }
+
+            100% {
+              transform: scale(1);
+            }
+          }
+        }
+
+        .line3 {
+          animation: hamburgerline3-rev .7s cubic-bezier(.30, 1, .7, 1) forwards;
+
+          @keyframes hamburgerline3-rev {
+            0% {
+              transform: translateY(-8.5px) rotate(135deg);
+            }
+
+            50% {
+              transform: translateY(-8.5px) rotate(0);
+            }
+
+            100% {
+              transform: translateY(0) rotate(0);
+            }
+          }
+        }
+      }
+    }
+
+    .line {
+      width: 30px;
+      height: 3px;
+      border-radius: 3px;
+      background-color: #000;
+    }
+
+    .line2 {
+      margin: 5.5px 0;
     }
   }
 }
