@@ -111,6 +111,7 @@ export default {
   left: 20px;
   width: calc(100% - 40px);
   height: 50px;
+  z-index: 1;
 
   &::before,
   &::after {

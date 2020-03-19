@@ -2,7 +2,7 @@
   <div class="home">
     <Header />
     <Aside />
-    <!-- <Content /> -->
+    <Content />
     <Footer />
   </div>
 </template>
@@ -10,14 +10,14 @@
 <script>
 import Header from '@/components/home/Header.vue';
 import Aside from '@/components/home/Aside.vue';
-// import Content from '@/components/home/Content.vue';
+import Content from '@/components/home/Content.vue';
 import Footer from '@/components/home/Footer.vue';
 
 export default {
   components: {
     Header,
     Aside,
-    // Content,
+    Content,
     Footer,
   },
 };
