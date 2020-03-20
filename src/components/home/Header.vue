@@ -17,7 +17,7 @@
       <span class="marquee">▉ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pretium ante erat, vitae sodales mi varius quis.</span>
     </div>
     <div class="header__space mini-screen-hidden">
-      <span class="text">Space</span>
+      <router-link class="text" to="/covid-19">COVID-19</router-link>
     </div>
     <div class="header__hamburger" @click="toggleHamburger">
       <div
@@ -295,6 +295,8 @@ export default {
       position: absolute;
       display: block;
       width: 100%;
+      color: #000;
+      text-decoration: none;
       text-align: center;
       z-index: 1;
       transition: color .25s;

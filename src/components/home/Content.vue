@@ -54,7 +54,7 @@ export default {
       background-size: 600px 200px;
 
       &.left {
-        background-image: url('../../assets/lenticular-left.jpg');
+        background-image: url('../../assets/images/lenticular-left.jpg');
         animation: flipcardleft 4.5s 0s infinite alternate ease-in-out;
 
         @keyframes flipcardleft {
@@ -77,7 +77,7 @@ export default {
 
       &.right {
         margin-left: -3px;
-        background-image: url('../../assets/lenticular-right.jpg');
+        background-image: url('../../assets/images/lenticular-right.jpg');
         animation: flipcardright 4.5s 0s infinite alternate ease-in-out;
 
         @keyframes flipcardright {
