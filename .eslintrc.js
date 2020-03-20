@@ -16,5 +16,7 @@ module.exports = {
     'max-len': 'off',
     'func-names': 'off',
     'object-shorthand': 'off',
+    'vue/no-unused-vars': 'off',
+    'vue/require-v-for-key': 'off',
   },
 };
