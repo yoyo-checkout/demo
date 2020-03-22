@@ -9,8 +9,13 @@ import * as d3 from 'd3';
 import { mapState, mapActions } from 'vuex';
 
 export default {
-  mounted() {
-    this.getGlobalStatisticsByDate();
+  data() {
+    return {
+      selectedDate: '2020-3-21',
+    };
+  },
+  async mounted() {
+    await this.getGlobalStatisticsByDate();
     // const current = new Date();
     // const today = `0${current.getMonth() + 1}-${current.getDate()}`;
     // console.log(today);
@@ -41,16 +46,21 @@ export default {
           .enter()
           .append('path')
           .attr('d', pathRenderer)
-          .on('mouseover', () => {
+          .attr('style', (data) => {
+            const country = data.properties.name;
 
-            // d3
-            //   .select(this)
-            //   .classed('active', true);
-          })
-          .on('mouseout', () => {
-            // d3
-            //   .select(this)
-            //   .classed('active', false);
+            if (this.statistics[country]) {
+              const filterByDate = this.statistics[country].filter((item) => item.date === this.selectedDate)[0];
+
+              if (filterByDate.confirmed < 10) return 'fill: #fef0d9;';
+              if (filterByDate.confirmed < 100) return 'fill: #fdd49e;';
+              if (filterByDate.confirmed < 500) return 'fill: #fdbb84;';
+              if (filterByDate.confirmed < 1000) return 'fill: #fc8d59;';
+              if (filterByDate.confirmed < 10000) return 'fill: #e34a33;';
+              return 'fill: rgb(179, 0, 0);';
+            }
+
+            return 'fill: #eaeaea;';
           });
       });
     },
@@ -59,4 +69,11 @@ export default {
 </script>
 
 <style lang="scss">
+.covid19 {
+  background-color: #d0cfd4;
+
+  path {
+    stroke: rgb(128, 128, 128);
+  }
+}
 </style>
