@@ -1,6 +1,6 @@
 import api from '../base';
 
-const fetchGlobalConfirmedByDate = (param) => { // eslint-disable-line
+const fetchGlobalStatisticsByDate = (param) => { // eslint-disable-line
   return api.get('https://covid-19-coronavirus-statistics.p.rapidapi.com/v1/stats', {
     headers: {
       'x-rapidapi-host': 'covid-19-coronavirus-statistics.p.rapidapi.com',
@@ -10,5 +10,5 @@ const fetchGlobalConfirmedByDate = (param) => { // eslint-disable-line
 };
 
 export {
-  fetchGlobalConfirmedByDate, // eslint-disable-line
+  fetchGlobalStatisticsByDate, // eslint-disable-line
 };

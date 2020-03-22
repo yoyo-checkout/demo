@@ -6,7 +6,7 @@
 
 <script>
 import * as d3 from 'd3';
-import { mapActions } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 export default {
   mounted() {
@@ -17,6 +17,11 @@ export default {
     // https://nssac.bii.virginia.edu/covid-19/dashboard/data/nssac-ncov-sd-01-22-2020.csv
 
     this.renderWorldMap();
+  },
+  computed: {
+    ...mapState('Covid19', {
+      statistics: (state) => state.statistics,
+    }),
   },
   methods: {
     ...mapActions('Covid19', [
