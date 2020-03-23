@@ -1,19 +1,26 @@
 <template>
   <div class="covid19">
     <svg width="1000px" height="600px"></svg>
+    <div class="tooltip" v-show="tooltip.isVisible">
+      <p>Country: <span>{{ tooltip.country }}</span></p>
+      <p>confirmed: <span>{{ tooltip.confirmed ? tooltip.confirmed : '--' }}</span></p>
+      <p>deaths: <span>{{ tooltip.deaths ? tooltip.deaths : '--' }}</span></p>
+      <p>recovered: <span>{{ tooltip.recovered ? tooltip.recovered : '--' }}</span></p>
+    </div>
   </div>
 </template>
 
 <script>
 import * as d3 from 'd3';
+import {
+  handleMouseEnter,
+  handleMouseOut,
+  handleMouseClick,
+  closeTooltip,
+} from '@/assets/tools/d3HandleEvent';
 import { mapState, mapActions } from 'vuex';
 
 export default {
-  data() {
-    return {
-      selectedDate: '2020-3-21',
-    };
-  },
   async mounted() {
     await this.getGlobalStatisticsByDate();
     // const current = new Date();
@@ -23,9 +30,14 @@ export default {
 
     this.renderWorldMap();
   },
+  created() {
+    window.addEventListener('click', closeTooltip);
+  },
   computed: {
     ...mapState('Covid19', {
       statistics: (state) => state.statistics,
+      selectedDate: (state) => state.selectedDate,
+      tooltip: (state) => state.tooltip,
     }),
   },
   methods: {
@@ -61,7 +73,10 @@ export default {
             }
 
             return 'fill: #eaeaea;';
-          });
+          })
+          .on('mouseenter', handleMouseEnter)
+          .on('mouseout', handleMouseOut)
+          .on('click', handleMouseClick);
       });
     },
   },
@@ -70,10 +85,33 @@ export default {
 
 <style lang="scss">
 .covid19 {
+  box-sizing: border-box;
   background-color: #d0cfd4;
+
+  * {
+    box-sizing: border-box;
+  }
 
   path {
     stroke: rgb(128, 128, 128);
+
+    &.hover {
+      opacity: .6;
+      cursor: pointer;
+    }
+  }
+
+  .tooltip {
+    position: absolute;
+    padding: 10px;
+    background-color: #fff;
+    border: 2px solid #000;
+    border-radius: 5px;
+    opacity: .8;
+
+    p {
+      margin: 5px 0;
+    }
   }
 }
 </style>

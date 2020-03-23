@@ -1,1 +1,4 @@
-export const SET_STATISTICS = 'SET_STATISTICS'; // eslint-disable-line
+export const SET_STATISTICS = 'SET_STATISTICS';
+export const SET_SELECTED_DATE = 'SET_SELECTED_DATE';
+export const SET_TOOLTIP_DATA = 'SET_TOOLTIP_DATA';
+export const RESET_TOOLTIP_DATA = 'RESET_TOOLTIP_DATA';

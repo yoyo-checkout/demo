@@ -3,6 +3,14 @@ import * as types from './types';
 
 const state = {
   statistics: {},
+  selectedDate: '2020-3-21',
+  tooltip: {
+    isVisible: false,
+    country: '',
+    confirmed: null,
+    deaths: null,
+    recovered: null,
+  },
 };
 
 const actions = {
@@ -21,6 +29,21 @@ const actions = {
 const mutations = {
   [types.SET_STATISTICS](state, statistics) {
     state.statistics = statistics;
+  },
+  [types.SET_SELECTED_DATE](state, date) {
+    state.selectedDate = date;
+  },
+  [types.SET_TOOLTIP_DATA](state, { key, value }) {
+    state.tooltip[key] = value;
+  },
+  [types.RESET_TOOLTIP_DATA](state) {
+    state.tooltip = {
+      isVisible: false,
+      country: '',
+      confirmed: 0,
+      deaths: 0,
+      recovered: 0,
+    };
   },
 };
 /* eslint-enable no-shadow */
