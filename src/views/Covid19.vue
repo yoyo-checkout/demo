@@ -1,15 +1,15 @@
 <template>
   <div class="covid19">
-    <svg width="1000px" height="600px"></svg>
-    <div class="tooltip" v-show="tooltip.isVisible">
+    <svg></svg>
+    <div class="tooltip" v-show="tooltip.isVisible && windowSize > 850">
       <p>國家: <span>{{ tooltip.country }}</span></p>
       <p>確診數: <span>{{ tooltip.confirmed ? tooltip.confirmed : '--' }}</span></p>
       <p>死亡數: <span>{{ tooltip.deaths ? tooltip.deaths : '--' }}</span></p>
       <p>治癒數: <span>{{ tooltip.recovered ? tooltip.recovered : '--' }}</span></p>
     </div>
-    <div class="legend-table">
+    <div class="legend-table" v-show="windowSize > 850">
       <div class="row">
-        <div class="row__color" style="background-color: #eaeaea;"></div>
+        <div class="row__color" style="background-color: #fff;"></div>
         <span>0</span>
       </div>
       <div class="row">
@@ -37,19 +37,25 @@
         <span>10,000 +</span>
       </div>
     </div>
-    <el-slider
-      class="date-slider"
-      v-model="selectedDateIndex"
-      :max="dateRange.length ? dateRange.length - 1 : 1"
-      :show-stops="true"
-      :format-tooltip="renderSliderTooltip"
-      @input="handleDateChange">
-    </el-slider>
+    <div class="date-slider">
+      <div class="hint">
+        <div class="hint__date">日期：{{ selectedDate }}</div>
+        <div class="hint__text">← →滑動看各國趨勢</div>
+      </div>
+      <el-slider
+        v-model="selectedDateIndex"
+        :max="dateRange.length ? dateRange.length - 1 : 1"
+        :show-stops="true"
+        :format-tooltip="renderSliderTooltip"
+        @input="handleDateChange">
+      </el-slider>
+    </div>
   </div>
 </template>
 
 <script>
 import * as d3 from 'd3';
+import 'd3-selection-multi';
 import {
   handleMouseEnter,
   handleMouseOut,
@@ -59,17 +65,20 @@ import {
 import { mapState, mapActions, mapMutations } from 'vuex';
 
 export default {
+  data() {
+    return {
+      geoJsonUrl: 'https://enjalot.github.io/wwsd/data/world/world-110m.geojson',
+      windowSize: window.innerWidth,
+      projectionScale: null,
+    };
+  },
   async mounted() {
     await this.getGlobalStatistics();
-    // const current = new Date();
-    // const today = `0${current.getMonth() + 1}-${current.getDate()}`;
-    // console.log(today);
-    // https://nssac.bii.virginia.edu/covid-19/dashboard/data/nssac-ncov-sd-01-22-2020.csv
-
+    this.projectionScale = this.getProjectionScale();
     this.initWorldMap();
-  },
-  created() {
+
     window.addEventListener('click', closeTooltip);
+    window.addEventListener('resize', this.resizeWorldMap);
   },
   computed: {
     ...mapState('Covid19', {
@@ -96,39 +105,40 @@ export default {
       'SET_SELECTED_DATE',
     ]),
 
-    initWorldMap() {
-      const url = 'https://enjalot.github.io/wwsd/data/world/world-110m.geojson';
+    getProjectionScale() {
+      if (window.innerWidth < 600) return 50;
+      if (window.innerWidth < 800) return 75;
+      if (window.innerWidth < 1024) return 100;
+      return 150;
+    },
+    async resizeWorldMap() {
+      this.windowSize = window.innerWidth;
+      this.projectionScale = this.getProjectionScale();
 
-      d3.json(url).then((world) => {
-        const globalProjection = d3.geoMercator().scale(120).translate([480, 430]);
+      d3.select('.covid19 svg')
+        .selectAll('path')
+        .remove();
+
+      this.initWorldMap();
+    },
+    async initWorldMap() {
+      await d3.json(this.geoJsonUrl).then((world) => {
+        const globalProjection = d3.geoMercator().translate([this.windowSize / 2, this.windowSize / 3]).scale(this.projectionScale);
         const pathRenderer = d3.geoPath().projection(globalProjection);
 
         d3.select('.covid19 svg')
+          .attrs({ width: this.windowSize, height: this.windowSize / 2, viewBox: `0 0 ${this.windowSize} ${this.windowSize / 2}` })
           .selectAll('path')
           .data(world.features)
           .enter()
           .append('path')
           .attr('d', pathRenderer)
-          .attr('style', (data) => {
-            const country = data.properties.name;
-
-            if (this.statistics[country]) {
-              const filterByDate = this.statistics[country].filter((item) => item.date === this.selectedDate)[0];
-
-              if (filterByDate.confirmed < 10) return 'fill: #fef0d9;';
-              if (filterByDate.confirmed < 100) return 'fill: #fdd49e;';
-              if (filterByDate.confirmed < 500) return 'fill: #fdbb84;';
-              if (filterByDate.confirmed < 1000) return 'fill: #fc8d59;';
-              if (filterByDate.confirmed < 10000) return 'fill: #e34a33;';
-              return 'fill: rgb(179, 0, 0);';
-            }
-
-            return 'fill: #eaeaea;';
-          })
           .on('mouseenter', handleMouseEnter)
           .on('mouseout', handleMouseOut)
           .on('click', handleMouseClick);
       });
+
+      this.updateWorldMap();
     },
     updateWorldMap() {
       d3.select('.covid19 svg')
@@ -139,6 +149,7 @@ export default {
           if (this.statistics[country]) {
             const filterByDate = this.statistics[country].filter((item) => item.date === this.selectedDate)[0];
 
+            if (filterByDate.confirmed === 0) return 'fill: #fff;';
             if (filterByDate.confirmed < 10) return 'fill: #fef0d9;';
             if (filterByDate.confirmed < 100) return 'fill: #fdd49e;';
             if (filterByDate.confirmed < 500) return 'fill: #fdbb84;';
@@ -147,14 +158,8 @@ export default {
             return 'fill: rgb(179, 0, 0);';
           }
 
-          return 'fill: #eaeaea;';
-        })
-        .transition();
-
-      d3.select('.covid19 svg')
-        .selectAll('path')
-        .exit()
-        .remove();
+          return 'fill: #fff;';
+        });
     },
     renderSliderTooltip(index) {
       return this.dateRange[index];
@@ -170,7 +175,8 @@ export default {
 <style lang="scss">
 .covid19 {
   box-sizing: border-box;
-  background-color: #d0cfd4;
+  min-height: 100vh;
+  background-color: #595959;
 
   * {
     box-sizing: border-box;
@@ -180,7 +186,7 @@ export default {
     stroke: rgb(128, 128, 128);
 
     &.hover {
-      opacity: .6;
+      opacity: .9;
       cursor: pointer;
     }
   }
@@ -199,8 +205,12 @@ export default {
   }
 
   .legend-table {
+    position: absolute;
+    top: 10px;
+    left: 10px;
     padding: 10px;
     width: 170px;
+    background-color: rgba(245, 245, 246, .9);
     border: 2px solid #000;
     border-radius: 5px;
 
@@ -219,6 +229,11 @@ export default {
 
   .date-slider {
     padding: 30px;
+
+    .hint {
+      color: #fff;
+      text-align: center;
+    }
   }
 }
 </style>

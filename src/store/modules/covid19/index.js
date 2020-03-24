@@ -4,7 +4,7 @@ import * as types from './types';
 const state = {
   statistics: {},
   dateRange: [],
-  selectedDate: '2020-3-21',
+  selectedDate: '',
   tooltip: {
     isVisible: false,
     country: '',
@@ -15,7 +15,7 @@ const state = {
 };
 
 const actions = {
-  async getGlobalStatistics({ commit }) { // eslint-disable-line
+  async getGlobalStatistics({ commit }) {
     try {
       const { data } = await api.Covid19.fetchGlobalStatistics();
 
