@@ -3,6 +3,7 @@ import * as types from './types';
 
 const state = {
   statistics: {},
+  dateRange: [],
   selectedDate: '2020-3-21',
   tooltip: {
     isVisible: false,
@@ -14,11 +15,12 @@ const state = {
 };
 
 const actions = {
-  async getGlobalStatisticsByDate({ commit }) { // eslint-disable-line
+  async getGlobalStatistics({ commit }) { // eslint-disable-line
     try {
       const { data } = await api.Covid19.fetchGlobalStatistics();
 
       commit('SET_STATISTICS', data);
+      commit('SET_DATE_RANGE', data);
     } catch (error) {
       console.log('Error Request.'); // eslint-disable-line
     }
@@ -29,6 +31,9 @@ const actions = {
 const mutations = {
   [types.SET_STATISTICS](state, statistics) {
     state.statistics = statistics;
+  },
+  [types.SET_DATE_RANGE](state, statistics) {
+    state.dateRange = statistics.Afghanistan.map((item) => item.date);
   },
   [types.SET_SELECTED_DATE](state, date) {
     state.selectedDate = date;
