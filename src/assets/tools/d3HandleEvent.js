@@ -1,5 +1,7 @@
 /* global vueInstance */
 import * as d3 from 'd3';
+import * as _ from 'lodash';
+import { countryMap } from '@/assets/tools/countryNameMap';
 
 export function handleMouseEnter() {
   d3.select(this).classed('hover', true);
@@ -10,7 +12,7 @@ export function handleMouseOut() {
 }
 
 export function handleMouseClick(data) {
-  const country = data.properties.name;
+  let country = data.properties.name;
   const { statistics } = vueInstance.$store.state.Covid19;
   const { selectedDate } = vueInstance.$store.state.Covid19;
 
@@ -20,6 +22,11 @@ export function handleMouseClick(data) {
     .duration(200)
     .style('left', `${d3.event.pageX - 100}px`)
     .style('top', `${d3.event.pageY - 150}px`);
+
+  // timeseries API 跟 geoJson API 有些國家名稱不同
+  // 需要作轉換
+  const countryNameInTimeSeries = _.findKey(countryMap, (item) => item === country);
+  country = countryNameInTimeSeries || country;
 
   const filterByDate = statistics[country]
     ? statistics[country].filter((item) => item.date === selectedDate)[0]

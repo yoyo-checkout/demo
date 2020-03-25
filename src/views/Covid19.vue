@@ -3,9 +3,9 @@
     <svg></svg>
     <div class="tooltip" v-show="tooltip.isVisible && windowSize > 850">
       <p>國家: <span>{{ tooltip.country }}</span></p>
-      <p>確診數: <span>{{ tooltip.confirmed ? tooltip.confirmed : '--' }}</span></p>
-      <p>死亡數: <span>{{ tooltip.deaths ? tooltip.deaths : '--' }}</span></p>
-      <p>治癒數: <span>{{ tooltip.recovered ? tooltip.recovered : '--' }}</span></p>
+      <p>確診數: <span>{{ tooltip.confirmed !== null ? tooltip.confirmed : '--' }}</span></p>
+      <p>死亡數: <span>{{ tooltip.deaths !== null ? tooltip.deaths : '--' }}</span></p>
+      <p>治癒數: <span>{{ tooltip.recovered !== null ? tooltip.recovered : '--' }}</span></p>
     </div>
     <div class="legend-table" v-show="windowSize > 850">
       <div class="row">
@@ -55,6 +55,7 @@
 
 <script>
 import * as d3 from 'd3';
+import * as _ from 'lodash';
 import 'd3-selection-multi';
 import {
   handleMouseEnter,
@@ -62,6 +63,7 @@ import {
   handleMouseClick,
   closeTooltip,
 } from '@/assets/tools/d3HandleEvent';
+import { countryMap } from '@/assets/tools/countryNameMap';
 import { mapState, mapActions, mapMutations } from 'vuex';
 
 export default {
@@ -75,7 +77,8 @@ export default {
   async mounted() {
     await this.getGlobalStatistics();
     this.projectionScale = this.getProjectionScale();
-    this.initWorldMap();
+    await this.initWorldMap();
+    this.updateWorldMap();
 
     window.addEventListener('click', closeTooltip);
     window.addEventListener('resize', this.resizeWorldMap);
@@ -119,7 +122,8 @@ export default {
         .selectAll('path')
         .remove();
 
-      this.initWorldMap();
+      await this.initWorldMap();
+      this.updateWorldMap();
     },
     async initWorldMap() {
       await d3.json(this.geoJsonUrl).then((world) => {
@@ -137,14 +141,17 @@ export default {
           .on('mouseout', handleMouseOut)
           .on('click', handleMouseClick);
       });
-
-      this.updateWorldMap();
     },
     updateWorldMap() {
       d3.select('.covid19 svg')
         .selectAll('path')
         .attr('style', (data) => {
-          const country = data.properties.name;
+          let country = data.properties.name;
+
+          // timeseries API 跟 geoJson API 有些國家名稱不同
+          // 需要作轉換
+          const countryNameInTimeSeries = _.findKey(countryMap, (item) => item === country);
+          country = countryNameInTimeSeries || country;
 
           if (this.statistics[country]) {
             const filterByDate = this.statistics[country].filter((item) => item.date === this.selectedDate)[0];
