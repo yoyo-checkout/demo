@@ -37,8 +37,10 @@ export function handleMouseClick(data) {
       deaths: null,
       recovered: null,
     };
+  const i18nCountry = vueInstance.$i18n.messages['zh-TW'].Covid19.country;
+
   vueInstance.$store.commit('Covid19/SET_TOOLTIP_DATA', { key: 'isVisible', value: true });
-  vueInstance.$store.commit('Covid19/SET_TOOLTIP_DATA', { key: 'country', value: country });
+  vueInstance.$store.commit('Covid19/SET_TOOLTIP_DATA', { key: 'country', value: i18nCountry[country] });
   vueInstance.$store.commit('Covid19/SET_TOOLTIP_DATA', { key: 'confirmed', value: filterByDate.confirmed });
   vueInstance.$store.commit('Covid19/SET_TOOLTIP_DATA', { key: 'deaths', value: filterByDate.deaths });
   vueInstance.$store.commit('Covid19/SET_TOOLTIP_DATA', { key: 'recovered', value: filterByDate.recovered });
