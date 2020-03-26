@@ -16,8 +16,8 @@
     <div class="header__marquee">
       <span class="marquee">▉ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pretium ante erat, vitae sodales mi varius quis.</span>
     </div>
-    <div class="header__space mini-screen-hidden">
-      <router-link class="text" to="/covid-19">COVID-19</router-link>
+    <div class="header__space">
+      <router-link class="text" to="/covid-19">肺炎</router-link>
     </div>
     <div class="header__hamburger" @click="toggleHamburger">
       <div

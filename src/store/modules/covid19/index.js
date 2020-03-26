@@ -2,6 +2,7 @@ import * as api from '@/api';
 import * as types from './types';
 
 const state = {
+  windowSize: null,
   statistics: {},
   dateRange: [],
   selectedDate: '',
@@ -49,6 +50,9 @@ const mutations = {
       deaths: 0,
       recovered: 0,
     };
+  },
+  [types.SET_WINDOW_SIZE](state, val) {
+    state.windowSize = val;
   },
 };
 /* eslint-enable no-shadow */
