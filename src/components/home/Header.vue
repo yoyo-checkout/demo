@@ -41,12 +41,16 @@ export default {
       second: '',
       isHamburgerActive: false,
       initHamburger: true, // 初始化漢堡選單不啟動 unactive 樣式動畫
+      clockInterval: null,
     };
   },
   mounted() {
-    setInterval(() => {
+    this.clockInterval = setInterval(() => {
       this.updateTime();
     }, 1000);
+  },
+  destroyed() {
+    clearInterval(this.clockInterval);
   },
   methods: {
     fixTimeFormat(value) {
