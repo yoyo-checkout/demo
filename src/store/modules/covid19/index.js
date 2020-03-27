@@ -3,6 +3,7 @@ import * as types from './types';
 
 const state = {
   windowSize: null,
+  globalStatistic: {},
   statistics: {},
   dateRange: [],
   selectedDate: '',
@@ -16,12 +17,21 @@ const state = {
 };
 
 const actions = {
+  async getCountryDailyStatistics({ commit }) {
+    try {
+      const { data } = await api.Covid19.fetchCountryDailyStatistics();
+
+      commit('SET_COUNTRY_STATISTICS', data);
+      commit('SET_DATE_RANGE', data);
+    } catch (error) {
+      console.log('Error Request.'); // eslint-disable-line
+    }
+  },
   async getGlobalStatistics({ commit }) {
     try {
       const { data } = await api.Covid19.fetchGlobalStatistics();
 
-      commit('SET_STATISTICS', data);
-      commit('SET_DATE_RANGE', data);
+      commit('SET_GLOBAL_STATISTIC', data);
     } catch (error) {
       console.log('Error Request.'); // eslint-disable-line
     }
@@ -30,7 +40,7 @@ const actions = {
 
 /* eslint-disable no-shadow */
 const mutations = {
-  [types.SET_STATISTICS](state, statistics) {
+  [types.SET_COUNTRY_STATISTICS](state, statistics) {
     state.statistics = statistics;
   },
   [types.SET_DATE_RANGE](state, statistics) {
@@ -53,6 +63,9 @@ const mutations = {
   },
   [types.SET_WINDOW_SIZE](state, val) {
     state.windowSize = val;
+  },
+  [types.SET_GLOBAL_STATISTIC](state, statistic) {
+    state.globalStatistic = statistic;
   },
 };
 /* eslint-enable no-shadow */
