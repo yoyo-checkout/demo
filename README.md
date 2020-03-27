@@ -1,24 +1,6 @@
-# blockstudiodemo
+# Covid-19 各國趨勢圖
 
-## Project setup
-```
-npm install
-```
+傳送門：[各國趨勢圖](https://yoyo-checkout.github.io/demo)
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+**可滑動下方拖拉條切換日期**
+![](https://i.imgur.com/rRjBRw4.png)
