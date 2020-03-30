@@ -22,7 +22,8 @@ export default {
     };
   },
   async mounted() {
-    await this.getGlobalStatistics();
+    await this.getCountryDailyStatistics();
+
     this.projectionScale = this.getProjectionScale();
     await this.initWorldMap();
     this.updateWorldMap();
@@ -38,7 +39,7 @@ export default {
   },
   methods: {
     ...mapActions('Covid19', [
-      'getGlobalStatistics',
+      'getCountryDailyStatistics',
     ]),
 
     getProjectionScale() {

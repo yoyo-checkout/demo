@@ -1,5 +1,6 @@
 <template>
   <div class="covid19">
+    <GlobalStatistic />
     <WorldMap />
     <ToolTip />
     <LegendTable />
@@ -8,6 +9,7 @@
 </template>
 
 <script>
+import GlobalStatistic from '@/components/covid19/GlobalStatistic.vue';
 import WorldMap from '@/components/covid19/WorldMap.vue';
 import ToolTip from '@/components/covid19/ToolTip.vue';
 import LegendTable from '@/components/covid19/LegendTable.vue';
@@ -16,6 +18,7 @@ import { mapMutations } from 'vuex';
 
 export default {
   components: {
+    GlobalStatistic,
     WorldMap,
     ToolTip,
     LegendTable,
