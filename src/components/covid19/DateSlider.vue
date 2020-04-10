@@ -24,7 +24,6 @@ import { mapState, mapMutations } from 'vuex';
 export default {
   computed: {
     ...mapState('Covid19', {
-      windowSize: (state) => state.windowSize,
       statistics: (state) => state.statistics,
       dateRange: (state) => state.dateRange,
       selectedDate: (state) => state.selectedDate,
