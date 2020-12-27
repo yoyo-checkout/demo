@@ -6,27 +6,27 @@
     </div>
     <div class="row">
       <div class="row__color" style="background-color: #fef0d9;"></div>
-      <span>1 - 9</span>
+      <span>0 +</span>
     </div>
     <div class="row">
       <div class="row__color" style="background-color: #fdd49e;"></div>
-      <span>10 - 99</span>
+      <span>10,000 +</span>
     </div>
     <div class="row">
       <div class="row__color" style="background-color: #fdbb84;"></div>
-      <span>100 - 499</span>
+      <span>100,000 +</span>
     </div>
     <div class="row">
       <div class="row__color" style="background-color: #fc8d59;"></div>
-      <span>500 - 999</span>
+      <span>500,000 +</span>
     </div>
     <div class="row">
       <div class="row__color" style="background-color: #e34a33;"></div>
-      <span>1,000 - 9,999</span>
+      <span>1,000,000 +</span>
     </div>
     <div class="row">
       <div class="row__color" style="background-color: rgb(179, 0, 0);"></div>
-      <span>10,000 +</span>
+      <span>3,000,000 +</span>
     </div>
   </div>
 </template>
