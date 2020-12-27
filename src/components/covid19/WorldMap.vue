@@ -90,11 +90,11 @@ export default {
             const filterByDate = this.statistics[country].filter((item) => item.date === this.selectedDate)[0];
 
             if (filterByDate.confirmed === 0) return 'fill: #fff;';
-            if (filterByDate.confirmed < 10) return 'fill: #fef0d9;';
-            if (filterByDate.confirmed < 100) return 'fill: #fdd49e;';
-            if (filterByDate.confirmed < 500) return 'fill: #fdbb84;';
-            if (filterByDate.confirmed < 1000) return 'fill: #fc8d59;';
-            if (filterByDate.confirmed < 10000) return 'fill: #e34a33;';
+            if (filterByDate.confirmed < 10000) return 'fill: #fef0d9;';
+            if (filterByDate.confirmed < 100000) return 'fill: #fdd49e;';
+            if (filterByDate.confirmed < 500000) return 'fill: #fdbb84;';
+            if (filterByDate.confirmed < 1000000) return 'fill: #fc8d59;';
+            if (filterByDate.confirmed < 3000000) return 'fill: #e34a33;';
             return 'fill: rgb(179, 0, 0);';
           }
 
